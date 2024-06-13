@@ -31,11 +31,11 @@ jobs:
         with:
           context: .
           push: true
-          tags: pecarmoregistry.azurecr.io/acr-app:latest
+          tags: pecarmoregistry.azurecr.io/${{ github.repository }}:latest
 
       - name: Build and push Docker image with CalVer tag
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: pecarmoregistry.azurecr.io/acr-app:${{ steps.date.outputs.date }}
+          tags: pecarmoregistry.azurecr.io/${{ github.repository }}:latest
