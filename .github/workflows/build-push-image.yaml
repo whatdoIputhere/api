@@ -1,12 +1,11 @@
-name: Build and Push Docker Image
+name: Build and Push Docker image
 
 on:
     push:
-        branches:
-            - main
+        branches: [ main ]
 
 jobs:
-    build-and-push:
+    build:
         runs-on: ubuntu-latest
 
         steps:
@@ -21,11 +20,11 @@ jobs:
                 password: ${{ secrets.DOCKER_PASSWORD }}
 
             - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
+              uses: docker/setup-buildx-action@v1
 
             - name: Build and push Docker image
-              uses: docker/build-push-action@v5
+              uses: docker/build-push-action@v2
               with:
-                  context: .
-                  push: true
-                  tags: pecarmo/app:latest
+                context: .
+                push: true
+                tags: pecarmoregistry.azurecr.io/acr-app:latest
