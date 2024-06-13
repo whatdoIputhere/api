@@ -14,13 +14,17 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Login to Docker Registry
-              run: docker login pecarmoregistry.azurecr.io -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+              uses: azure/docker-login@v2
+              with:
+                login-server: pecarmoregistry.azurecr.io
+                username: ${{ secrets.DOCKER_USERNAME }}
+                password: ${{ secrets.DOCKER_PASSWORD }}
 
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
 
             - name: Build and push Docker image
-              uses: docker/build-push-action@v3
+              uses: docker/build-push-action@v5
               with:
                   context: .
                   push: true
