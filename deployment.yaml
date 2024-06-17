@@ -17,6 +17,7 @@ spec:
       containers:
       - name: app-container
         image: pecarmoregistry.azurecr.io/app:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 ---
