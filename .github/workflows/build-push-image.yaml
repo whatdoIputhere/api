@@ -6,6 +6,7 @@ on:
 
 jobs:
   build-and-push-image:
+    name: Build and Push Docker image
     runs-on: ubuntu-latest
 
     steps:
@@ -44,23 +45,24 @@ jobs:
           push: true
           tags: pecarmoregistry.azurecr.io/${{ steps.repo.outputs.repo }}:${{ steps.date.outputs.date }}
 
-  restart-deployment:
-      runs-on: ubuntu-latest
-      needs: build-and-push-image
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+  apply-deployment:
+    name: Apply deployment
+    runs-on: ubuntu-latest
+    needs: build-and-push-image
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        - name: Get repository name
-          id: repo
-          run: echo "::set-output name=repo::$(basename ${{ github.repository }})"
-        
-        - name: Login to Azure
-          uses: azure/login@v2
-          with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-        - name: Restart deployment
-          run: |
-              az aks get-credentials --resource-group infra-rg-neu --name pecarmoaks
-              kubectl apply -f deployment.yaml
+      - name: Get repository name
+        id: repo
+        run: echo "::set-output name=repo::$(basename ${{ github.repository }})"
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Apply deployment
+        run: |
+            az aks get-credentials --resource-group infra-rg-neu --name pecarmoaks
+            kubectl apply -f deployment.yaml
