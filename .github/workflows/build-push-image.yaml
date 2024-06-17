@@ -59,10 +59,7 @@ jobs:
           with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-        - name: Set up kubectl
-          uses: azure/CLI@v2
-          with:
-            azcliversion: 2.0.72
-            inlineScript: |
+        - name: Restart deployment
+          run: |
               az aks get-credentials --resource-group infra-rg-neu --name pecarmoaks
               kubectl rollout restart deployment ${{ steps.repo.outputs.repo }}-deployment
