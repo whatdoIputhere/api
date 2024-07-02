@@ -8,7 +8,7 @@ router.get("/notification/byemail", async (req, res) => {
         let data = await NotificationModel.find({ email: _email });
         res.send(data);
     } catch (error) {
-        res.sendStatus(400);
+        res.send(400);
         console.log(error);
     }
 });
@@ -18,7 +18,7 @@ router.get("/notification", async (req, res) => {
         let data = await NotificationModel.find();
         res.send(data);
     } catch (error) {
-        res.sendStatus(400);
+        res.send(400);
         console.log(error);
     }
 });
@@ -29,9 +29,9 @@ router.post("/notification", async (req, res) => {
     let notification = new NotificationModel({ email: _email, url: _url });
     try {
         await notification.save();
-        res.sendStatus(200);
+        res.send(200);
     } catch (error) {
-        res.sendStatus(400);
+        res.send(400);
         console.log(error);
     }
 });
@@ -41,9 +41,9 @@ router.delete("/notification/byemailurl", async (req, res) => {
     let _url = req.body.url;
     try {
         await NotificationModel.deleteOne({ email: _email, url: _url });
-        res.sendStatus(200);
+        res.send(200);
     } catch (error) {
-        res.sendStatus(400);
+        res.send(400);
         console.log(error);
     }
 });
@@ -51,9 +51,9 @@ router.delete("/notification/byemailurl", async (req, res) => {
 router.delete("/notification", async (req, res) => {
     try {
         await NotificationModel.deleteMany();
-        res.sendStatus(200);
+        res.send(200);
     } catch (error) {
-        res.sendStatus(400);
+        res.send(400);
         console.log(error);
     }
 });
