@@ -12,8 +12,8 @@ app.use(cors());
 
 app.use(notificationRoutes);
 
-app.get("/", (res) => {
-    res.send("Api is listening");
+app.get("/", (req, res) => {
+    res.sendStatus("Api is listening");
 });
 
 app.listen(3001, () => {
