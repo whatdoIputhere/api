@@ -13,7 +13,7 @@ app.use(cors());
 app.use(notificationRoutes);
 
 app.get("/", (req, res) => {
-    res.sendStatus("Api is listening");
+    res.sendStatus(200);
 });
 
 app.listen(3001, () => {
