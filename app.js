@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require('cors');
 const mongoose = require("mongoose");
 const notificationRoutes = require('./controllers/notification');
-const login = require('./auth').login;
 const app = express();
 require("dotenv").config();
 
