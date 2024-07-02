@@ -5,7 +5,7 @@ const notificationRoutes = require('./controllers/notification');
 const app = express();
 require("dotenv").config();
 
-const url = `mongodb://${process.env.dbusername}:${process.env.dbpassword}@${process.env.dbendpoint}:10255/${process.env.dbname}?ssl=true&retryWrites=false`;
+const url = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_ENDPOINT}:10255/${process.env.DB_NAME}?ssl=true&retryWrites=false`;
 mongoose.connect(url);
 
 app.use(express.json());
