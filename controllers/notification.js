@@ -13,7 +13,7 @@ router.get("/notification/byemail", async (req, res) => {
     }
 });
 
-router.get("/notification/all", async (req, res) => {
+router.get("/notification", async (req, res) => {
     try {
         let data = await NotificationModel.find();
         res.send(data);
