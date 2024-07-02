@@ -18,4 +18,5 @@ app.get("/", (res) => {
 
 app.listen(3001, () => {
     console.log("Api started");
+    console.log(process.env);
 });
