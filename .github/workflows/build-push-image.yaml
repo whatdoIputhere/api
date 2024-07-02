@@ -64,6 +64,10 @@ jobs:
       
       - name: Apply deployment
         run: |
+            sed -i 's/DB_ENDPOINT_SECRET_VALUE/${{ secrets.DB_ENDPOINT }}/g' deployment.yaml
+            sed -i 's/DB_USERNAME_SECRET_VALUE/${{ secrets.DB_USERNAME }}/g' deployment.yaml
+            sed -i 's/DB_PASSWORD_SECRET_VALUE/${{ secrets.DB_PASSWORD }}/g' deployment.yaml
+            sed -i 's/DB_NAME_SECRET_VALUE/${{ secrets.DB_NAME }}/g' deployment.yaml
             az aks get-credentials --resource-group infra-rg-neu --name pecarmoaks
             kubectl apply -f deployment.yaml
             kubectl rollout restart deployment/${{ steps.repo.outputs.repo }}-deployment
