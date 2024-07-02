@@ -4,10 +4,6 @@ const mongoose = require("mongoose");
 const notificationRoutes = require('./controllers/notification');
 const app = express();
 require("dotenv").config();
-console.log(process.env.DB_USERNAME);
-console.log(process.env.DB_PASSWORD);
-console.log(process.env.DB_ENDPOINT);
-console.log(process.env.DB_NAME);
 const url = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_ENDPOINT}:10255/${process.env.DB_NAME}?ssl=true&retryWrites=false`;
 mongoose.connect(url);
 
