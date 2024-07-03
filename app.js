@@ -16,6 +16,15 @@ app.get("/", (req, res) => {
     res.sendStatus(200);
 });
 
+
+app.use((req, res, next) => {
+    const currentTime = new Date().toISOString();
+    const requestType = req.method;
+    console.log(`[${currentTime}] Request Type: ${requestType}`);
+    next();
+});
+
+
 app.listen(3001, () => {
     console.log("Api started");
 });
