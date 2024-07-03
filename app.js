@@ -13,7 +13,7 @@ app.use(cors());
 app.use((req, res, next) => {
     const currentTime = new Date().toISOString();
     const requestType = req.method;
-    console.log(`[${currentTime}] Request Type: ${requestType}`);
+    console.log(`[${currentTime}] Request Type: ${requestType} on ${req.originalUrl}`);
     next();
 });
 app.use(notificationRoutes);
