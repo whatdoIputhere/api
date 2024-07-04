@@ -75,11 +75,11 @@ jobs:
       
       - name: Apply deployment
         run: |
-          DB_ENDPOINT_ENCODED=$(echo -n "${{ secrets.DB_ENDPOINT }}" | base64)
-          DB_USERNAME_ENCODED=$(echo -n "${{ secrets.DB_USERNAME }}" | base64)
-          DB_NAME_ENCODED=$(echo -n "${{ secrets.DB_NAME }}" | base64)
-          DB_PASSWORD_ENCODED=$(echo -n "${{ secrets.DB_PASSWORD }}" | base64)
-          DUCKDNS_TOKEN_ENCODED=$(echo -n "${{ secrets.DUCKDNS_TOKEN }}" | base64)
+          DB_ENDPOINT_ENCODED=$(echo -n "${{ secrets.DB_ENDPOINT }}" | base64 -w 0)
+          DB_USERNAME_ENCODED=$(echo -n "${{ secrets.DB_USERNAME }}" | base64 -w 0)
+          DB_NAME_ENCODED=$(echo -n "${{ secrets.DB_NAME }}" | base64 -w 0)
+          DB_PASSWORD_ENCODED=$(echo -n "${{ secrets.DB_PASSWORD }}" | base64 -w 0)
+          DUCKDNS_TOKEN_ENCODED=$(echo -n "${{ secrets.DUCKDNS_TOKEN }}" | base64 -w 0)
           
           sed -i "s#DB_ENDPOINT_SECRET_VALUE#${DB_ENDPOINT_ENCODED}#g" deployment.yaml
           sed -i "s#DB_USERNAME_SECRET_VALUE#${DB_USERNAME_ENCODED}#g" deployment.yaml
