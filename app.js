@@ -22,8 +22,6 @@ app.get("/", (req, res) => {
     res.sendStatus(200);
 });
 
-
-
 app.listen(3001, () => {
     console.log("Api started");
 });
