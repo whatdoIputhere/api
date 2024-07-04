@@ -77,13 +77,11 @@ jobs:
         run: |
           DB_ENDPOINT_ENCODED=$(echo -n "${{ secrets.DB_ENDPOINT }}" | base64)
           DB_USERNAME_ENCODED=$(echo -n "${{ secrets.DB_USERNAME }}" | base64)
-          DB_PASSWORD_ENCODED=$(echo -n "${{ secrets.DB_PASSWORD }}" | base64)
           DB_NAME_ENCODED=$(echo -n "${{ secrets.DB_NAME }}" | base64)
           DUCKDNS_TOKEN_ENCODED=$(echo -n "${{ secrets.DUCKDNS_TOKEN }}" | base64)
 
           echo "DB_ENDPOINT_ENCODED: $DB_ENDPOINT_ENCODED"
           echo "DB_USERNAME_ENCODED: $DB_USERNAME_ENCODED"
-          echo "DB_PASSWORD_ENCODED: $DB_PASSWORD_ENCODED"
           echo "DB_NAME_ENCODED: $DB_NAME_ENCODED"
           echo "DUCKDNS_TOKEN_ENCODED: $DUCKDNS_TOKEN_ENCODED"
           
