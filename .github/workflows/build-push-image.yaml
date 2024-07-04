@@ -64,8 +64,6 @@ jobs:
       
       - name: Apply deployment
         run: |
-          - name: Apply deployment
-            run: |
               DB_ENDPOINT_ENCODED=$(echo -n "${{ secrets.DB_ENDPOINT }}" | base64)
               DB_USERNAME_ENCODED=$(echo -n "${{ secrets.DB_USERNAME }}" | base64)
               DB_PASSWORD_ENCODED=$(echo -n "${{ secrets.DB_PASSWORD }}" | base64)
