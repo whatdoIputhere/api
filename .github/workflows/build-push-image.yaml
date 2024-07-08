@@ -75,9 +75,6 @@ jobs:
       
       - name: Apply deployment
         run: |
-          CLOUDFLARE_API_TOKEN=$(az keyvault secret show --name "cloudflare-api-token" --vault-name "pecarmokeyvault" --query "value" -o tsv)
-          CLOUDFLARE_API_TOKEN_ENCODED=$(echo -n "${CLOUDFLARE_API_TOKEN}" | base64 -w 0)
-
           DB_ENDPOINT="pecarmocosmosdb.mongo.cosmos.azure.com"
           DB_ENDPOINT_ENCODED=$(echo -n "${DB_ENDPOINT}" | base64 -w 0)
           
@@ -94,10 +91,7 @@ jobs:
           sed -i "s#DB_USERNAME_SECRET_VALUE#${DB_USERNAME_ENCODED}#g" deployment.yaml
           sed -i "s#DB_PASSWORD_SECRET_VALUE#${DB_PASSWORD_ENCODED}#g" deployment.yaml
           sed -i "s#DB_NAME_SECRET_VALUE#${DB_NAME_ENCODED}#g" deployment.yaml
-          sed -i "s#CLOUDFLARE_API_TOKEN_SECRET_VALUE#${CLOUDFLARE_API_TOKEN_ENCODED}#g" external-dns-deployment.yaml
           
           az aks get-credentials --resource-group infra-rg-neu --name pecarmoaks
           kubectl apply -f deployment.yaml
-          kubectl apply -f external-dns-deployment.yaml
-          kubectl rollout restart deployment/external-dns
           kubectl rollout restart deployment/${{ steps.repo.outputs.repo }}
