@@ -12,22 +12,22 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: api
   labels:
-    app: app
+    app: api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app
+      app: api
   template:
     metadata:
       labels:
-        app: app
+        app: api
     spec:
       containers:
         - name: app-container
-          image: pecarmoregistry.azurecr.io/app:latest
+          image: pecarmoregistry.azurecr.io/api:latest
           ports:
             - containerPort: 3001
           imagePullPolicy: Always
@@ -56,13 +56,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: app
+  name: api
   annotations:
     external-dns.alpha.kubernetes.io/hostname: api.pecarmo.pt
 spec:
   type: LoadBalancer
   selector:
-    app: app
+    app: api
   ports:
     - protocol: TCP
       port: 80
