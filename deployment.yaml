@@ -9,14 +9,6 @@ data:
   DB_PASSWORD: DB_PASSWORD_SECRET_VALUE
   DB_NAME: DB_NAME_SECRET_VALUE
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: duckdns-secret
-type: Opaque
-data:
-  DUCKDNS_TOKEN: DUCKDNS_TOKEN_SECRET_VALUE
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -61,41 +53,12 @@ spec:
                   name: db-secrets
                   key: DB_NAME
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: external-dns
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: external-dns
-  template:
-    metadata:
-      labels:
-        app: external-dns
-    spec:
-      containers:
-      - name: external-dns
-        image: k8s.gcr.io/external-dns/external-dns:latest
-        args:
-        - --source=service
-        - --source=ingress
-        - --domain-filter=pecarmo.duckdns.org
-        - --provider=duckdns
-        env:
-        - name: DUCKDNS_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: duckdns-secret
-              key: DUCKDNS_TOKEN
----
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-service
+  name: app-service
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: pecarmo.duckdns.org
+    external-dns.alpha.kubernetes.io/hostname: api.pecarmo.pt
 spec:
   type: LoadBalancer
   selector:
