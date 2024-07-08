@@ -75,18 +75,29 @@ jobs:
       
       - name: Apply deployment
         run: |
-          DB_ENDPOINT_ENCODED=$(echo -n "${{ secrets.DB_ENDPOINT }}" | base64 -w 0)
-          DB_USERNAME_ENCODED=$(echo -n "${{ secrets.DB_USERNAME }}" | base64 -w 0)
-          DB_NAME_ENCODED=$(echo -n "${{ secrets.DB_NAME }}" | base64 -w 0)
-          DB_PASSWORD_ENCODED=$(echo -n "${{ secrets.DB_PASSWORD }}" | base64 -w 0)
-          DUCKDNS_TOKEN_ENCODED=$(echo -n "${{ secrets.DUCKDNS_TOKEN }}" | base64 -w 0)
+          CLOUDFLARE_API_TOKEN=$(az keyvault secret show --name "cloudflare-api-token" --vault-name "pecarmokeyvault" --query "value" -o tsv)
+          CLOUDFLARE_API_TOKEN_ENCODED=$(echo -n "${CLOUDFLARE_API_TOKEN}" | base64 -w 0)
+
+          DB_ENDPOINT="pecarmocosmosdb.mongo.cosmos.azure.com"
+          DB_ENDPOINT_ENCODED=$(echo -n "${DB_ENDPOINT}" | base64 -w 0)
+          
+          DB_USERNAME="pecarmocosmosdb"
+          DB_USERNAME_ENCODED=$(echo -n "${DB_USERNAME}" | base64 -w 0)
+          
+          DB_NAME="pecarmodb"
+          DB_NAME_ENCODED=$(echo -n "${DB_NAME}" | base64 -w 0)
+          
+          DB_PASSWORD=$(az cosmosdb keys list -n pecarmocosmosdb -g infra-rg-neu --query "primaryMasterKey" -o tsv)
+          DB_PASSWORD_ENCODED=$(echo -n "${DB_PASSWORD}" | base64 -w 0)
           
           sed -i "s#DB_ENDPOINT_SECRET_VALUE#${DB_ENDPOINT_ENCODED}#g" deployment.yaml
           sed -i "s#DB_USERNAME_SECRET_VALUE#${DB_USERNAME_ENCODED}#g" deployment.yaml
           sed -i "s#DB_PASSWORD_SECRET_VALUE#${DB_PASSWORD_ENCODED}#g" deployment.yaml
           sed -i "s#DB_NAME_SECRET_VALUE#${DB_NAME_ENCODED}#g" deployment.yaml
-          sed -i "s#DUCKDNS_TOKEN_SECRET_VALUE#${DUCKDNS_TOKEN_ENCODED}#g" deployment.yaml
+          sed -i "s#CLOUDFLARE_API_TOKEN_SECRET_VALUE#${CLOUDFLARE_API_TOKEN_ENCODED}#g" external-dns-deployment.yaml
           
           az aks get-credentials --resource-group infra-rg-neu --name pecarmoaks
           kubectl apply -f deployment.yaml
-          kubectl rollout restart deployment/${{ steps.repo.outputs.repo }}-deployment
+          kubectl apply -f external-dns-deployment.yaml
+          kubectl rollout restart deployment/external-dns
+          kubectl rollout restart deployment/${{ steps.repo.outputs.repo }}
