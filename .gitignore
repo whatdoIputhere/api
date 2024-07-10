@@ -12,3 +12,6 @@ build/
 
 # Ignore package-lock.json file
 package-lock.json
+
+# Ignore local.yaml files
+*local.yaml
