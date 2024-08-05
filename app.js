@@ -14,6 +14,7 @@ app.use((req, res, next) => {
     const currentTime = new Date().toISOString();
     const requestType = req.method;
     console.log(`[${currentTime}] Request Type: ${requestType} on ${req.originalUrl}`);
+    console.log("UPDATESSS")
     next();
 });
 app.use(notificationRoutes);
